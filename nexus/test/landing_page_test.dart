@@ -1,0 +1,17 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:nexus/main.dart';
+
+void main() {
+  testWidgets('Poem changes when language selection changes',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const NexusApp());
+
+    expect(find.textContaining('Under starlit skies'), findsOneWidget);
+
+    await tester.drag(find.byType(ListWheelScrollView), const Offset(0, -50));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Unter sternenklaren Weiten'), findsOneWidget);
+  });
+}
+
