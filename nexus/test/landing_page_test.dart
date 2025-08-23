@@ -10,7 +10,6 @@ void main() {
 
     await tester.tap(find.text('English'));
     await tester.pump();
-
     await tester.drag(find.byType(ListWheelScrollView), const Offset(0, -50));
     await tester.pumpAndSettle();
 
