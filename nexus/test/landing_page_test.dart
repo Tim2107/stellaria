@@ -11,7 +11,6 @@ void main() {
 
     await tester.tap(find.text('English'));
     await tester.pump();
-
     await tester.drag(find.byType(CupertinoPicker), const Offset(0, -100));
     await tester.pumpAndSettle();
 
