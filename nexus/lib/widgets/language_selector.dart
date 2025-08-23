@@ -69,13 +69,16 @@ class _LanguageSelectorState extends State<LanguageSelector> {
 
   Widget _buildCollapsed(String lang) {
     return InkWell(
-      onTap: () => setState(() => _expanded = true),
+      onTap: () {
+        _controller.jumpToItem(widget.selectedIndex);
+        setState(() => _expanded = true);
+      },
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(lang, style: _languageStyle(lang, true)),
           const SizedBox(width: 8),
-          const Sparkle(),
+          const Sparkle(color: Color(0xFF81D4FA)),
         ],
       ),
     );
@@ -89,10 +92,37 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         scrollController: _controller,
         itemExtent: 50,
         onSelectedItemChanged: widget.onChanged,
-        selectionOverlay: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.amber, width: 2),
-          ),
+        selectionOverlay: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFD1C4E9), Color(0xFFBBDEFB)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blueAccent.withOpacity(0.4),
+                    blurRadius: 8,
+                    offset: Offset(2, 4),
+                  ),
+                ],
+              ),
+            ),
+            const Positioned(
+              top: 6,
+              left: 10,
+              child: Sparkle(size: 10, color: Color(0xFFB39DDB)),
+            ),
+            const Positioned(
+              bottom: 6,
+              right: 10,
+              child: Sparkle(size: 10, color: Color(0xFF81D4FA)),
+            ),
+          ],
         ),
         children: [
           for (var i = 0; i < widget.languages.length; i++)
@@ -127,7 +157,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         base = GoogleFonts.ebGaramond(fontSize: 20);
     }
     return base.copyWith(
-      color: selected ? Colors.amber[800] : Colors.black87,
+      color: selected ? const Color(0xFF5E35B1) : Colors.black87,
     );
   }
 }

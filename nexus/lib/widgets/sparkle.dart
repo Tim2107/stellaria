@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Sparkle extends StatefulWidget {
-  const Sparkle({super.key});
+  final Color color;
+  final double size;
+
+  const Sparkle({super.key, this.color = const Color(0xFFB3E5FC), this.size = 12});
 
   @override
   State<Sparkle> createState() => _SparkleState();
@@ -32,20 +35,23 @@ class _SparkleState extends State<Sparkle>
       animation: _controller,
       builder: (context, child) {
         final t = _controller.value;
-        final base = Colors.amber;
-        final color = Color.lerp(Colors.amber[200], base, t)!;
+        final color = Color.lerp(
+            widget.color.withOpacity(0.6), widget.color, t)!;
+        final size = widget.size * (0.8 + 0.4 * t);
         return Container(
-          width: 8,
-          height: 8,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
+          alignment: Alignment.center,
+          width: size,
+          height: size,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.7),
+              blurRadius: 8 * t + 2,
+            )
+          ]),
+          child: Icon(
+            Icons.star,
             color: color,
-            boxShadow: [
-              BoxShadow(
-                color: color.withOpacity(0.7),
-                blurRadius: 6 * t + 2,
-              ),
-            ],
+            size: size,
           ),
         );
       },
