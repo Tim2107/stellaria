@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nexus/main.dart';
 
@@ -10,10 +11,9 @@ void main() {
 
     await tester.tap(find.text('English'));
     await tester.pump();
-    await tester.drag(find.byType(ListWheelScrollView), const Offset(0, -50));
+    await tester.drag(find.byType(CupertinoPicker), const Offset(0, -100));
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Unter sternenklaren Weiten'), findsOneWidget);
   });
 }
-
