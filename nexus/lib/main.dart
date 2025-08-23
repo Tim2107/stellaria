@@ -86,6 +86,7 @@ qu’il resplendisse, qu’il consume, qu’il enivre.
   };
 
   int _selected = 0;
+  bool _showSelector = false;
   final FixedExtentScrollController _controller = FixedExtentScrollController();
 
   @override
@@ -99,54 +100,33 @@ qu’il resplendisse, qu’il consume, qu’il enivre.
     final lang = _languages[_selected];
 
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 150,
-              child: ListWheelScrollView.useDelegate(
-                controller: _controller,
-                itemExtent: 50,
-                physics: const FixedExtentScrollPhysics(),
-                onSelectedItemChanged: (index) =>
-                    setState(() => _selected = index),
-                childDelegate: ListWheelChildBuilderDelegate(
-                  builder: (context, index) {
-                    if (index < 0 || index >= _languages.length) return null;
-                    final language = _languages[index];
-                    final selected = index == _selected;
-                    return Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            language,
-                            style: _languageStyle(language, selected),
-                          ),
-                          if (selected) ...[
-                            const SizedBox(width: 8),
-                            const Icon(Icons.auto_awesome,
-                                color: Colors.amber),
-                          ]
-                        ],
-                      ),
-                    );
-                  },
-                  childCount: _languages.length,
+      body: Stack(
+        children: [
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Center(
+                    child: Text(
+                      _poems[lang]!,
+                      textAlign: TextAlign.center,
+                      style: _poemStyle(lang),
+                    ),
+                  ),
                 ),
-              ),
+              );
+            },
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: _showSelector ? _buildWheel() : _buildCollapsed(lang),
             ),
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                _poems[lang]!,
-                textAlign: TextAlign.center,
-                style: _poemStyle(lang),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -171,6 +151,124 @@ qu’il resplendisse, qu’il consume, qu’il enivre.
     }
     return base.copyWith(
       color: selected ? Colors.amber[800] : Colors.black87,
+    );
+  }
+
+  Widget _buildCollapsed(String lang) {
+    return GestureDetector(
+      onTap: () => setState(() => _showSelector = true),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(lang, style: _languageStyle(lang, true)),
+          const SizedBox(width: 8),
+          const Sparkle(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWheel() {
+    return GestureDetector(
+      onTap: () => setState(() => _showSelector = false),
+      child: SizedBox(
+        height: 150,
+        width: 120,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            ListWheelScrollView.useDelegate(
+              controller: _controller,
+              itemExtent: 50,
+              physics: const FixedExtentScrollPhysics(),
+              onSelectedItemChanged: (index) =>
+                  setState(() => _selected = index),
+              childDelegate: ListWheelChildBuilderDelegate(
+                builder: (context, index) {
+                  if (index < 0 || index >= _languages.length) return null;
+                  final language = _languages[index];
+                  final selected = index == _selected;
+                  return Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          language,
+                          style: _languageStyle(language, selected),
+                        ),
+                        if (selected) ...[
+                          const SizedBox(width: 8),
+                          const Sparkle(),
+                        ]
+                      ],
+                    ),
+                  );
+                },
+                childCount: _languages.length,
+              ),
+            ),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 2),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Sparkle extends StatefulWidget {
+  const Sparkle({super.key});
+
+  @override
+  State<Sparkle> createState() => _SparkleState();
+}
+
+class _SparkleState extends State<Sparkle>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        final t = _controller.value;
+        final base = Colors.amber;
+        final color = Color.lerp(Colors.amber[200], base, t)!;
+        return Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.7),
+                blurRadius: 6 * t + 2,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

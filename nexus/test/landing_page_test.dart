@@ -8,6 +8,8 @@ void main() {
 
     expect(find.textContaining('Under starlit skies'), findsOneWidget);
 
+    await tester.tap(find.text('English'));
+    await tester.pump();
     await tester.drag(find.byType(ListWheelScrollView), const Offset(0, -50));
     await tester.pumpAndSettle();
 
