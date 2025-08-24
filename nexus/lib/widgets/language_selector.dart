@@ -33,7 +33,8 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   @override
   void didUpdateWidget(covariant LanguageSelector oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedIndex != widget.selectedIndex) {
+    if (oldWidget.selectedIndex != widget.selectedIndex &&
+        _controller.hasClients) {
       _controller.jumpToItem(widget.selectedIndex);
     }
   }
@@ -70,10 +71,13 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   Widget _buildCollapsed(String lang) {
     return InkWell(
       onTap: () {
-        _controller.jumpToItem(widget.selectedIndex);
+        _controller.dispose();
+        _controller =
+            FixedExtentScrollController(initialItem: widget.selectedIndex);
         setState(() => _expanded = true);
       },
-      child: Text(lang, style: _languageStyle(lang, true)),
+      child:
+          Text(lang, style: _languageStyle(lang, false, const Color(0xFF5E35B1))),
     );
   }
 
@@ -131,7 +135,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     );
   }
 
-  TextStyle _languageStyle(String language, bool selected) {
+  TextStyle _languageStyle(String language, bool selected, [Color? color]) {
     TextStyle base;
     switch (language) {
       case '日本語':
@@ -141,7 +145,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         base = GoogleFonts.ebGaramond(fontSize: 20);
     }
     return base.copyWith(
-      color: selected ? Colors.black : Colors.black87,
+      color: color ?? (selected ? Colors.black : Colors.black87),
     );
   }
 }
