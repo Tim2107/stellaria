@@ -56,18 +56,19 @@ qu’il resplendisse, qu’il consume, qu’il enivre.
 分かち合い、輝かせよ
 ''',
   'slovenčina': '''
-Pod hviezdnatou oblohou
-čaká útočisko,
-kde tajomstvá rozkvitajú
-a sny tvoria svety.
+Pod žiarivým hviezdnym nebom
+čaká svätyňa túžby,
+kde sa tajomstvá otvárajú ako zakázané kvety,
+a sny plodia svety vášne.
 
-A ticho šepká,
-divoké, nevidené,
-volá srdcia,
-aby tvorili, aby sa spojili.
+Ticho vzdychá,
+žeravé, nepolapiteľné,
+jeho šepot sa dotýka pokožky srdca,
+zvádza ho, aby sa roztopilo, spojilo, tvorilo.
 
-A keď nájdeš vzácny klenot,
-podel’ sa oň —
-nech žiari jasom.
+Keď objavíš vzácny drahokam,
+nechaj ho rozhorieť,
+podeľ sa —
+nech žiari, nech spaľuje, nech opája.
 ''',
 };
