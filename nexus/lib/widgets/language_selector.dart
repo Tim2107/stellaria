@@ -73,14 +73,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         _controller.jumpToItem(widget.selectedIndex);
         setState(() => _expanded = true);
       },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(lang, style: _languageStyle(lang, true)),
-          const SizedBox(width: 8),
-          const Sparkle(color: Color(0xFF81D4FA)),
-        ],
-      ),
+      child: Text(lang, style: _languageStyle(lang, true)),
     );
   }
 
@@ -127,19 +120,10 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         children: [
           for (var i = 0; i < widget.languages.length; i++)
             Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    widget.languages[i],
-                    style: _languageStyle(
-                        widget.languages[i], i == widget.selectedIndex),
-                  ),
-                  if (i == widget.selectedIndex) ...[
-                    const SizedBox(width: 8),
-                    const Sparkle(),
-                  ]
-                ],
+              child: Text(
+                widget.languages[i],
+                style: _languageStyle(
+                    widget.languages[i], i == widget.selectedIndex),
               ),
             )
         ],
@@ -157,7 +141,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         base = GoogleFonts.ebGaramond(fontSize: 20);
     }
     return base.copyWith(
-      color: selected ? const Color(0xFF5E35B1) : Colors.black87,
+      color: selected ? Colors.black : Colors.black87,
     );
   }
 }
