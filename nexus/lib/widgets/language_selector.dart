@@ -7,12 +7,14 @@ class LanguageSelector extends StatefulWidget {
   final List<String> languages;
   final int selectedIndex;
   final ValueChanged<int> onChanged;
+  final bool isDark;
 
   const LanguageSelector({
     super.key,
     required this.languages,
     required this.selectedIndex,
     required this.onChanged,
+    required this.isDark,
   });
 
   @override
@@ -76,8 +78,11 @@ class _LanguageSelectorState extends State<LanguageSelector> {
             FixedExtentScrollController(initialItem: widget.selectedIndex);
         setState(() => _expanded = true);
       },
-      child:
-          Text(lang, style: _languageStyle(lang, false, const Color(0xFF5E35B1))),
+      child: Text(
+        lang,
+        style: _languageStyle(
+            lang, false, widget.isDark ? Colors.white : const Color(0xFF5E35B1)),
+      ),
     );
   }
 
@@ -145,7 +150,10 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         base = GoogleFonts.ebGaramond(fontSize: 20);
     }
     return base.copyWith(
-      color: color ?? (selected ? Colors.black : Colors.black87),
+      color: color ??
+          (selected
+              ? (widget.isDark ? Colors.white : Colors.black)
+              : (widget.isDark ? Colors.white70 : Colors.black87)),
     );
   }
 }

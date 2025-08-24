@@ -12,6 +12,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   int _selectedIndex = 0;
+  bool _isDark = false;
 
   List<String> get _languages => poems.keys.toList();
   String get _currentLang => _languages[_selectedIndex];
@@ -19,31 +20,51 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Center(
-                    child: Text(
-                      poems[_currentLang]!,
-                      textAlign: TextAlign.center,
-                      style: _poemStyle(_currentLang),
+      body: AnimatedContainer(
+        duration: const Duration(milliseconds: 600),
+        color: _isDark ? Colors.black : Colors.white,
+        child: Stack(
+          children: [
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Center(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 800),
+                        transitionBuilder: (child, animation) {
+                          return RotationTransition(
+                            turns: animation,
+                            child: FadeTransition(opacity: animation, child: child),
+                          );
+                        },
+                        child: Text(
+                          poems[_currentLang]!,
+                          key: ValueKey(_currentLang + (_isDark ? 'dark' : 'light')),
+                          textAlign: TextAlign.center,
+                          style: _poemStyle(_currentLang).copyWith(
+                            color: _isDark ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-          LanguageSelector(
-            languages: _languages,
-            selectedIndex: _selectedIndex,
-            onChanged: (i) => setState(() => _selectedIndex = i),
-          ),
-        ],
+                );
+              },
+            ),
+            LanguageSelector(
+              languages: _languages,
+              selectedIndex: _selectedIndex,
+              isDark: _isDark,
+              onChanged: (i) => setState(() {
+                _selectedIndex = i;
+                _isDark = !_isDark;
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
