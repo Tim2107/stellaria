@@ -33,7 +33,8 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   @override
   void didUpdateWidget(covariant LanguageSelector oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedIndex != widget.selectedIndex) {
+    if (oldWidget.selectedIndex != widget.selectedIndex &&
+        _controller.hasClients) {
       _controller.jumpToItem(widget.selectedIndex);
     }
   }
@@ -70,17 +71,13 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   Widget _buildCollapsed(String lang) {
     return InkWell(
       onTap: () {
-        _controller.jumpToItem(widget.selectedIndex);
+        _controller.dispose();
+        _controller =
+            FixedExtentScrollController(initialItem: widget.selectedIndex);
         setState(() => _expanded = true);
       },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(lang, style: _languageStyle(lang, true)),
-          const SizedBox(width: 8),
-          const Sparkle(color: Color(0xFF81D4FA)),
-        ],
-      ),
+      child:
+          Text(lang, style: _languageStyle(lang, false, const Color(0xFF5E35B1))),
     );
   }
 
@@ -92,54 +89,45 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         scrollController: _controller,
         itemExtent: 50,
         onSelectedItemChanged: widget.onChanged,
-        selectionOverlay: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFD1C4E9), Color(0xFFBBDEFB)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blueAccent.withOpacity(0.4),
-                    blurRadius: 8,
-                    offset: Offset(2, 4),
+          selectionOverlay: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  gradient: const LinearGradient(
+                    colors: [Color(0x66D1C4E9), Color(0x66BBDEFB)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                ],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blueAccent.withOpacity(0.4),
+                      blurRadius: 8,
+                      offset: Offset(2, 4),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Positioned(
-              top: 6,
-              left: 10,
-              child: Sparkle(size: 10, color: Color(0xFFB39DDB)),
-            ),
-            const Positioned(
-              bottom: 6,
-              right: 10,
-              child: Sparkle(size: 10, color: Color(0xFF81D4FA)),
-            ),
-          ],
-        ),
+              const Positioned(
+                top: 6,
+                left: 10,
+                child: Sparkle(size: 10, color: Color(0xFFB39DDB)),
+              ),
+              const Positioned(
+                bottom: 6,
+                right: 10,
+                child: Sparkle(size: 10, color: Color(0xFF81D4FA)),
+              ),
+            ],
+          ),
         children: [
           for (var i = 0; i < widget.languages.length; i++)
             Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    widget.languages[i],
-                    style: _languageStyle(
-                        widget.languages[i], i == widget.selectedIndex),
-                  ),
-                  if (i == widget.selectedIndex) ...[
-                    const SizedBox(width: 8),
-                    const Sparkle(),
-                  ]
-                ],
+              child: Text(
+                widget.languages[i],
+                style: _languageStyle(
+                    widget.languages[i], i == widget.selectedIndex),
               ),
             )
         ],
@@ -147,7 +135,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     );
   }
 
-  TextStyle _languageStyle(String language, bool selected) {
+  TextStyle _languageStyle(String language, bool selected, [Color? color]) {
     TextStyle base;
     switch (language) {
       case '日本語':
@@ -157,7 +145,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         base = GoogleFonts.ebGaramond(fontSize: 20);
     }
     return base.copyWith(
-      color: selected ? const Color(0xFF5E35B1) : Colors.black87,
+      color: color ?? (selected ? Colors.black : Colors.black87),
     );
   }
 }
