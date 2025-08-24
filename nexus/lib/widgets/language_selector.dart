@@ -89,38 +89,38 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         scrollController: _controller,
         itemExtent: 50,
         onSelectedItemChanged: widget.onChanged,
-        selectionOverlay: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFD1C4E9), Color(0xFFBBDEFB)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blueAccent.withOpacity(0.4),
-                    blurRadius: 8,
-                    offset: Offset(2, 4),
+          selectionOverlay: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  gradient: const LinearGradient(
+                    colors: [Color(0x66D1C4E9), Color(0x66BBDEFB)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                ],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blueAccent.withOpacity(0.4),
+                      blurRadius: 8,
+                      offset: Offset(2, 4),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Positioned(
-              top: 6,
-              left: 10,
-              child: Sparkle(size: 10, color: Color(0xFFB39DDB)),
-            ),
-            const Positioned(
-              bottom: 6,
-              right: 10,
-              child: Sparkle(size: 10, color: Color(0xFF81D4FA)),
-            ),
-          ],
-        ),
+              const Positioned(
+                top: 6,
+                left: 10,
+                child: Sparkle(size: 10, color: Color(0xFFB39DDB)),
+              ),
+              const Positioned(
+                bottom: 6,
+                right: 10,
+                child: Sparkle(size: 10, color: Color(0xFF81D4FA)),
+              ),
+            ],
+          ),
         children: [
           for (var i = 0; i < widget.languages.length; i++)
             Center(
