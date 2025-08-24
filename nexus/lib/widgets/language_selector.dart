@@ -60,9 +60,9 @@ class _LanguageSelectorState extends State<LanguageSelector> {
             ),
           ),
         Align(
-          alignment: Alignment.centerRight,
+          alignment: Alignment.bottomRight,
           child: Padding(
-            padding: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.only(right: 16, bottom: 16),
             child: _expanded ? _buildWheel() : _buildCollapsed(lang),
           ),
         ),
