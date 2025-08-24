@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 class Sparkle extends StatefulWidget {
   final Color color;
   final double size;
+  final bool animate;
 
-  const Sparkle({super.key, this.color = const Color(0xFFB3E5FC), this.size = 12});
+  const Sparkle(
+      {super.key,
+      this.color = const Color(0xFFB3E5FC),
+      this.size = 12,
+      this.animate = true});
 
   @override
   State<Sparkle> createState() => _SparkleState();
@@ -20,7 +25,21 @@ class _SparkleState extends State<Sparkle>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
-    )..repeat(reverse: true);
+    );
+    if (widget.animate) {
+      _controller.repeat(reverse: true);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant Sparkle oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.animate && !_controller.isAnimating) {
+      _controller.repeat(reverse: true);
+    } else if (!widget.animate && _controller.isAnimating) {
+      _controller.stop();
+      _controller.value = 0;
+    }
   }
 
   @override
@@ -34,9 +53,9 @@ class _SparkleState extends State<Sparkle>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        final t = _controller.value;
-        final color = Color.lerp(
-            widget.color.withOpacity(0.6), widget.color, t)!;
+        final t = widget.animate ? _controller.value : 0.5;
+        final color =
+            Color.lerp(widget.color.withOpacity(0.6), widget.color, t)!;
         final size = widget.size * (0.8 + 0.4 * t);
         return Container(
           alignment: Alignment.center,

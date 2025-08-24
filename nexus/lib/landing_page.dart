@@ -64,10 +64,10 @@ class _LandingPageState extends State<LandingPage> {
                 _isDark = !_isDark;
               }),
             ),
-            const Positioned(
+            Positioned(
               top: 16,
               left: 16,
-              child: StarMenu(),
+              child: StarMenu(isDark: _isDark),
             ),
           ],
         ),

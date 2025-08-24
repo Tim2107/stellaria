@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'sparkle.dart';
 
 class StarMenu extends StatefulWidget {
-  const StarMenu({super.key});
+  final bool isDark;
+
+  const StarMenu({super.key, required this.isDark});
 
   @override
   State<StarMenu> createState() => _StarMenuState();
@@ -11,9 +13,13 @@ class StarMenu extends StatefulWidget {
 
 class _StarMenuState extends State<StarMenu> {
   bool _open = false;
+  bool _hovering = false;
+
+  static const double _hoverRadius = 40;
 
   @override
   Widget build(BuildContext context) {
+    final starColor = widget.isDark ? Colors.grey[300]! : Colors.grey[800]!;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -39,9 +45,30 @@ class _StarMenuState extends State<StarMenu> {
           ),
           const SizedBox(width: 8),
         ],
-        InkWell(
-          onTap: () => setState(() => _open = !_open),
-          child: const Sparkle(size: 32, color: Color(0xFFFFD700)),
+        MouseRegion(
+          onExit: (_) => setState(() => _hovering = false),
+          onHover: (e) {
+            final center = const Offset(_hoverRadius, _hoverRadius);
+            final distance = (e.localPosition - center).distance;
+            final close = distance <= _hoverRadius;
+            if (close != _hovering) {
+              setState(() => _hovering = close);
+            }
+          },
+          child: SizedBox(
+            width: _hoverRadius * 2,
+            height: _hoverRadius * 2,
+            child: Center(
+              child: InkWell(
+                onTap: () => setState(() => _open = !_open),
+                child: Sparkle(
+                  size: 32,
+                  color: starColor,
+                  animate: _hovering,
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
