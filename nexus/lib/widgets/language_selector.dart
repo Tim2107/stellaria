@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'sparkle.dart';
 
@@ -87,13 +88,41 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   }
 
   Widget _buildWheel() {
-    return SizedBox(
-      height: 150,
-      width: 120,
-      child: CupertinoPicker(
-        scrollController: _controller,
-        itemExtent: 50,
-        onSelectedItemChanged: widget.onChanged,
+    return Focus(
+      autofocus: true,
+      onKey: (node, event) {
+        if (event is RawKeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+            final newIndex = _controller.selectedItem > 0
+                ? _controller.selectedItem - 1
+                : _controller.selectedItem;
+            if (newIndex != _controller.selectedItem) {
+              _controller.animateToItem(newIndex,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut);
+            }
+            return KeyEventResult.handled;
+          } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+            final newIndex = _controller.selectedItem < widget.languages.length - 1
+                ? _controller.selectedItem + 1
+                : _controller.selectedItem;
+            if (newIndex != _controller.selectedItem) {
+              _controller.animateToItem(newIndex,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut);
+            }
+            return KeyEventResult.handled;
+          }
+        }
+        return KeyEventResult.ignored;
+      },
+      child: SizedBox(
+        height: 150,
+        width: 120,
+        child: CupertinoPicker(
+          scrollController: _controller,
+          itemExtent: 50,
+          onSelectedItemChanged: widget.onChanged,
           selectionOverlay: Stack(
             alignment: Alignment.center,
             children: [
@@ -126,16 +155,17 @@ class _LanguageSelectorState extends State<LanguageSelector> {
               ),
             ],
           ),
-        children: [
-          for (var i = 0; i < widget.languages.length; i++)
-            Center(
-              child: Text(
-                widget.languages[i],
-                style: _languageStyle(
-                    widget.languages[i], i == widget.selectedIndex),
-              ),
-            )
-        ],
+          children: [
+            for (var i = 0; i < widget.languages.length; i++)
+              Center(
+                child: Text(
+                  widget.languages[i],
+                  style: _languageStyle(
+                      widget.languages[i], i == widget.selectedIndex),
+                ),
+              )
+          ],
+        ),
       ),
     );
   }
