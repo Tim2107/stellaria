@@ -55,4 +55,19 @@ qu’il resplendisse, qu’il consume, qu’il enivre.
 そして、めずらしい宝石を見つけたなら
 分かち合い、輝かせよ
 ''',
+  'slovenčina': '''
+Pod hviezdnatou oblohou
+čaká útočisko,
+kde tajomstvá rozkvitajú
+a sny tvoria svety.
+
+A ticho šepká,
+divoké, nevidené,
+volá srdcia,
+aby tvorili, aby sa spojili.
+
+A keď nájdeš vzácny klenot,
+podel’ sa oň —
+nech žiari jasom.
+''',
 };
