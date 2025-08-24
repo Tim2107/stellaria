@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'data/poems.dart';
 import 'widgets/language_selector.dart';
+import 'widgets/star_menu.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -62,6 +63,11 @@ class _LandingPageState extends State<LandingPage> {
                 _selectedIndex = i;
                 _isDark = !_isDark;
               }),
+            ),
+            Positioned(
+              top: 16,
+              left: 16,
+              child: StarMenu(isDark: _isDark),
             ),
           ],
         ),
