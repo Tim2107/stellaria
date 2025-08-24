@@ -15,5 +15,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Unter sternenklaren Weiten'), findsOneWidget);
+
+    await tester.drag(find.byType(CupertinoPicker), const Offset(0, -300));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Pod hviezdnatou oblohou'), findsOneWidget);
   });
 }
