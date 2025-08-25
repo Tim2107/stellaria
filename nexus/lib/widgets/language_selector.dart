@@ -134,13 +134,6 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blueAccent.withOpacity(0.4),
-                      blurRadius: 8,
-                      offset: Offset(2, 4),
-                    ),
-                  ],
                 ),
               ),
               const Positioned(
