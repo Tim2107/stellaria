@@ -98,27 +98,13 @@ class _StarMenuState extends State<StarMenu> with SingleTickerProviderStateMixin
 
   Widget _buildOption({required IconData icon, VoidCallback? onTap}) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [Colors.teal, Colors.blue],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            blurRadius: 12,
-            spreadRadius: 1,
-            offset: const Offset(0, 4),
-          ),
-          BoxShadow(
-            color: Colors.white.withOpacity(0.2),
-            blurRadius: 8,
-            spreadRadius: -2,
-            offset: const Offset(0, -2),
-          ),
-        ],
       ),
       child: Material(
         color: Colors.transparent,

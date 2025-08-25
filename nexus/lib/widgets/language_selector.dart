@@ -146,7 +146,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
               const Positioned(
                 top: 6,
                 left: 10,
-                child: Sparkle(size: 10, color: Color(0xFFB39DDB)),
+                child: Sparkle(size: 10, color: Colors.white),
               ),
               const Positioned(
                 bottom: 6,
