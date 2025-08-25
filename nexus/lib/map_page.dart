@@ -12,7 +12,7 @@ class MapPage extends StatelessWidget {
           InteractiveViewer(
             maxScale: 5,
             child: Image.asset(
-              'assets/map.jpg',
+              '../assets/map.jpg',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stack) => const Center(child: Text('Map image missing')),
             ),
