@@ -98,16 +98,26 @@ class _StarMenuState extends State<StarMenu> with SingleTickerProviderStateMixin
 
   Widget _buildOption({required IconData icon, VoidCallback? onTap}) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [Colors.teal, Colors.blue],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
-          BoxShadow(color: Colors.black26, offset: Offset(2, 2), blurRadius: 4),
-          BoxShadow(color: Colors.white24, offset: Offset(-2, -2), blurRadius: 4),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.4),
+            blurRadius: 12,
+            spreadRadius: 1,
+            offset: const Offset(0, 4),
+          ),
+          BoxShadow(
+            color: Colors.white.withOpacity(0.2),
+            blurRadius: 8,
+            spreadRadius: -2,
+            offset: const Offset(0, -2),
+          ),
         ],
       ),
       child: Material(
@@ -116,9 +126,37 @@ class _StarMenuState extends State<StarMenu> with SingleTickerProviderStateMixin
         child: InkWell(
           customBorder: const CircleBorder(),
           onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Icon(icon, color: Colors.white),
+          child: ClipOval(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Icon(icon, color: Colors.white),
+                ),
+                // create a subtle highlight for a glassy 3D effect
+                IgnorePointer(
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            Colors.white.withOpacity(0.5),
+                            Colors.white.withOpacity(0.0),
+                          ],
+                          center: Alignment.topLeft,
+                          radius: 0.8,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
