@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../map_page.dart';
 import 'sparkle.dart';
 
 class StarMenu extends StatefulWidget {
@@ -74,7 +75,11 @@ class _StarMenuState extends State<StarMenu> with SingleTickerProviderStateMixin
                   child: _buildOption(
                     icon: Icons.travel_explore,
                     onTap: () {
-                      // Placeholder for portal action
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const MapPage(),
+                        ),
+                      );
                     },
                   ),
                 ),
