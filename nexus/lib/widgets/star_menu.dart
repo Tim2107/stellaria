@@ -20,31 +20,9 @@ class _StarMenuState extends State<StarMenu> {
   @override
   Widget build(BuildContext context) {
     final starColor = widget.isDark ? Colors.grey[300]! : Colors.grey[800]!;
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (_open) ...[
-          Tooltip(
-            message: 'explore stellaria',
-            child: _buildOption(
-              icon: Icons.travel_explore,
-              onTap: () {
-                // Placeholder for portal action
-              },
-            ),
-          ),
-          const SizedBox(width: 8),
-          Tooltip(
-            message: 'login',
-            child: _buildOption(
-              icon: Icons.login,
-              onTap: () {
-                // Placeholder for login action
-              },
-            ),
-          ),
-          const SizedBox(width: 8),
-        ],
         MouseRegion(
           onExit: (_) => setState(() => _hovering = false),
           onHover: (e) {
@@ -70,20 +48,56 @@ class _StarMenuState extends State<StarMenu> {
             ),
           ),
         ),
+        if (_open) ...[
+          const SizedBox(height: 8),
+          Tooltip(
+            message: 'explore stellaria',
+            child: _buildOption(
+              icon: Icons.travel_explore,
+              onTap: () {
+                // Placeholder for portal action
+              },
+            ),
+          ),
+          const SizedBox(height: 8),
+          Tooltip(
+            message: 'login',
+            child: _buildOption(
+              icon: Icons.login,
+              onTap: () {
+                // Placeholder for login action
+              },
+            ),
+          ),
+        ],
       ],
     );
   }
 
   Widget _buildOption({required IconData icon, VoidCallback? onTap}) {
-    return Material(
-      color: Colors.deepPurpleAccent,
-      shape: const CircleBorder(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Icon(icon, color: Colors.white),
+    return Container(
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [Colors.teal, Colors.blue],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(color: Colors.black26, offset: Offset(2, 2), blurRadius: 4),
+          BoxShadow(color: Colors.white24, offset: Offset(-2, -2), blurRadius: 4),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Icon(icon, color: Colors.white),
+          ),
         ),
       ),
     );
