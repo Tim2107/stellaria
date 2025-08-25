@@ -61,12 +61,15 @@ class _SparkleState extends State<Sparkle>
           alignment: Alignment.center,
           width: size,
           height: size,
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: color.withOpacity(0.7),
-              blurRadius: 8 * t + 2,
-            )
-          ]),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.7),
+                blurRadius: 8 * t + 2,
+              ),
+            ],
+          ),
           child: Icon(
             Icons.star,
             color: color,
