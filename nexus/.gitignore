@@ -66,3 +66,7 @@ ios/Pods/
 android/.gradle/
 android/local.properties
 
+
+# Project assets
+assets/map.jpg
+
