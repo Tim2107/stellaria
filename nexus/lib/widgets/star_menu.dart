@@ -97,19 +97,18 @@ class _StarMenuState extends State<StarMenu> with SingleTickerProviderStateMixin
   }
 
   Widget _buildOption({required IconData icon, VoidCallback? onTap}) {
-    return Material(
-      elevation: 8,
-      shape: const CircleBorder(),
-      color: Colors.transparent,
-      child: Ink(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: LinearGradient(
-            colors: [Colors.teal, Colors.blue],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+    return Container(
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [Colors.teal, Colors.blue],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
         child: InkWell(
           customBorder: const CircleBorder(),
           onTap: onTap,
