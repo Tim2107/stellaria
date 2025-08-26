@@ -9,12 +9,15 @@ class MapPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          InteractiveViewer(
-            maxScale: 5,
-            child: Image.asset(
-              '../assets/map.png',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stack) => const Center(child: Text('Map image missing')),
+          Positioned.fill(
+            child: InteractiveViewer(
+              maxScale: 5,
+              child: Image.asset(
+                'assets/map.png',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stack) =>
+                    const Center(child: Text('Map image missing')),
+              ),
             ),
           ),
           const Positioned(
